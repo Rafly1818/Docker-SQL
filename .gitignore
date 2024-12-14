@@ -1,0 +1,6 @@
+.gitignore
+
+project-c/*
+database/*
+main/*
+Dockerfile
