@@ -9,15 +9,14 @@ services:
     ports:
       - "31238:3306"  # Menghubungkan port 3306 di container dengan port 31238 di host
     volumes:
-      - ./database/data:/var/lib/mysql
-      - ./database/conf.d:/etc/mysql/conf.d:ro
+      - mysql_data:/var/lib/mysql
+      - mysql_config:/etc/mysql/conf.d:ro
     environment:
-      MYSQL_USER: root
-      MYSQL_PASSWORD: 123
-      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_ROOT_PASSWORD: 123  # Password root MariaDB
+      MYSQL_USER: root          # Tidak diperlukan, tetapi tetap dicantumkan untuk kompatibilitas
+      MYSQL_PASSWORD: 123       # Tidak diperlukan untuk root
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
-    read_only: false
 
   phpmyadmin:
     image: phpmyadmin:latest
@@ -32,3 +31,8 @@ services:
       PMA_PASSWORD: 123    # Password MariaDB
     depends_on:
       - mysql_cpp  # phpMyAdmin akan menunggu MariaDB siap sebelum memulai
+
+# Bagian volumes di bawah ini mendefinisikan named volumes
+volumes:
+  mysql_data:
+  mysql_config:

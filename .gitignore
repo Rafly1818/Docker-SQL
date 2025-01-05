@@ -1,6 +1,29 @@
 .gitignore
 
-project-c/*
-database/*
-main/*
-Dockerfile
+# Ignore database data and config folders
+database/data/
+database/conf.d/
+
+# Ignore Docker-related files and volumes
+*.pid
+*.log
+*.sock
+docker-compose.override.yml  # Ignore override files (optional)
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore editor/IDE-specific files
+.vscode/
+.idea/
+*.swp
+
+# Ignore node_modules or dependency directories if any
+node_modules/
+
+# Ignore OS-specific files
+desktop.ini
+
+# Ignore gitignore itself in subfolders
+!/.gitignore
