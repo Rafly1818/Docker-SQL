@@ -1,7 +1,6 @@
 .gitignore
 
 # Ignore database data and config folders
-database/data/
 database/conf.d/
 
 # Ignore Docker-related files and volumes
