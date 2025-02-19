@@ -20,7 +20,48 @@ Create a docker-compose.yml file:
 code docker-compose.yml
 ```
 
-### 4. Add the following content to the `docker-compose.yml` file [example using MySQL](https://github.com/Rafly1818/Docker-SQL/blob/main/docker-compose.yml).
+### 4. Add the following content to the `docker-compose.yml`:  
+```docker-compose.yml
+version: '3'
+
+services:
+  mysql_cpp:
+    image: mariadb:10.2
+    container_name: mysql
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "31238:3306"  # Menghubungkan port 3306 di container dengan port 31238 di host
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - mysql_config:/etc/mysql/conf.d:ro
+    environment:
+      MYSQL_ROOT_PASSWORD: 123  # Password root MariaDB
+      MYSQL_USER: root          # Tidak diperlukan, tetapi tetap dicantumkan untuk kompatibilitas
+      MYSQL_PASSWORD: 123       # Tidak diperlukan untuk root
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - "8080:80"  # phpMyAdmin akan dapat diakses di port 8080
+    environment:
+      PMA_HOST: mysql_cpp  # Nama service MariaDB (mysql_cpp) yang terhubung ke phpMyAdmin
+      PMA_PORT: 3306       # Port yang digunakan oleh MariaDB (3306)
+      PMA_USER: root       # Username MariaDB
+      PMA_PASSWORD: 123    # Password MariaDB
+    depends_on:
+      - mysql_cpp  # phpMyAdmin akan menunggu MariaDB siap sebelum memulai
+
+# Bagian volumes di bawah ini mendefinisikan named volumes
+volumes:
+  mysql_data:
+  mysql_config:
+
+```
 
 ## Step 2: Build and Run the Containers
 
